@@ -56,6 +56,8 @@ $routes->group('upload', ['namespace' => 'App\Controllers\Web'], function ($rout
 
 // App
 $routes->group('web', ['namespace' => 'App\Controllers\Web'], function ($routes) {
+    $routes->get('homestay/maps', 'Homestay::maps');
+    $routes->get('homestay/detail/(:segment)', 'Homestay::detail/$1');
     $routes->get('attraction/maps', 'Attraction::maps');
     $routes->get('attraction/detail/(:segment)', 'Attraction::detail/$1');
     $routes->get('uniqueAttraction', 'Attraction::uniqueAttraction');
@@ -75,8 +77,6 @@ $routes->group('web', ['namespace' => 'App\Controllers\Web'], function ($routes)
     $routes->presenter('serviceProvider');
     $routes->presenter('rumahGadang');
     $routes->get('/', 'TouristArea::index');
-    $routes->get('event/maps', 'Event::maps');
-    $routes->get('event/detail/(:segment)', 'Event::detail/$1');
     $routes->presenter('event');
     $routes->get('reservation', 'Reservation::listReservation', ['filter' => 'role:user']);
     $routes->get('reservation/cancel/(:segment)', 'Reservation::cancelReservation/$1', ['filter' => 'role:user']);

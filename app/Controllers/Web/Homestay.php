@@ -403,13 +403,14 @@ class Homestay extends ResourcePresenter
 
     public function maps()
     {
-        $contents = $this->rumahGadangModel->get_list_rg_api()->getResultArray();
+        $contents = $this->homestayModel->get_list_hs_api()->getResultArray();
+
         $data = [
-            'title' => 'Rumah Gadang',
+            'title' => 'Homestay',
             'data' => $contents,
         ];
 
-        return view('maps/rumah_gadang', $data);
+        return view('maps/homestay', $data);
     }
 
     public function detail($id = null)

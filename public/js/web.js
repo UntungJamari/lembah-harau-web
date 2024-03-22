@@ -91,6 +91,34 @@ function initMap(
   digitVillages();
   digitVillage();
 }
+function initMapM(
+  lat = -0.11371891332439286,
+  lng = 100.66784601319584,
+  mobile = true
+) {
+  directionsService = new google.maps.DirectionsService();
+  const center = new google.maps.LatLng(lat, lng);
+  if (!mobile) {
+    map = new google.maps.Map(document.getElementById("googlemaps"), {
+      zoom: 6,
+      center: center,
+      mapTypeId: "roadmap",
+    });
+  } else {
+    map = new google.maps.Map(document.getElementById("googlemaps"), {
+      zoom: 18,
+      center: center,
+      mapTypeControl: false,
+    });
+  }
+  var rendererOptions = {
+    map: map,
+  };
+  map.set("styles", customStyled);
+  directionsRenderer = new google.maps.DirectionsRenderer(rendererOptions);
+
+  digitVillage();
+}
 function goToVillage() {
   // map.setCenter({ lat: -0.11371891332439286, lng: 100.66784601319584 });
   map.panTo({ lat: -0.11371891332439286, lng: 100.66784601319584 });
