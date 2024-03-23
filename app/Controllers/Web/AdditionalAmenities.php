@@ -272,4 +272,30 @@ class AdditionalAmenities extends ResourcePresenter
             return $this->failNotFound($response);
         }
     }
+    public function detail($homestay_id = null, $additional_amenities_id = null)
+    {
+        $additional_amenities = $this->homestayAdditionalAmenitiesModel->get_haa_by_id_api($homestay_id, $additional_amenities_id)->getRowArray();
+        for ($i = 0; $i < count($additional_amenities); $i++) {
+            $getRID = $this->reservationHomestayAdditionalAmenitiesDetailModel->get_res_by_act_id($homestay_id, $additional_amenities['additional_amenities_id'])->getResultArray();
+            $rating = 0;
+            $rating_divider = 0;
+            foreach ($getRID as $rid) {
+                $reservation = $this->reservationModel->get_reservation_by_id($rid['reservation_id'])->getRowArray();
+                if ($reservation['rating'] != null) {
+                    $rating = $rating + $reservation['rating'];
+                    $rating_divider++;
+                }
+            }
+            if ($rating != 0) {
+                $avg_rating = $rating / $rating_divider;
+            } else {
+                $avg_rating = 0;
+            }
+            $additional_amenities['avg_rating'] = $avg_rating;
+            $additional_amenities['id'] = $additional_amenities['additional_amenities_id'];
+        }
+        $data['data'] = $additional_amenities;
+        $data['title'] = 'Additional Amenities Detail';
+        return view('maps/additional_amenities_detail', $data);
+    }
 }

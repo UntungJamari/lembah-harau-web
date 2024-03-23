@@ -58,6 +58,9 @@ $routes->group('upload', ['namespace' => 'App\Controllers\Web'], function ($rout
 $routes->group('web', ['namespace' => 'App\Controllers\Web'], function ($routes) {
     $routes->get('homestay/maps', 'Homestay::maps');
     $routes->get('homestay/detail/(:segment)', 'Homestay::detail/$1');
+    $routes->get('homestayUnit/detail/(:segment)/(:segment)/(:segment)', 'HomestayUnit::detail/$1/$2/$3');
+    $routes->get('package/detail/(:segment)/(:segment)', 'TourismPackage::detail/$1/$2');
+    $routes->get('additionalAmenities/detail/(:segment)/(:segment)', 'AdditionalAmenities::detail/$1/$2');
     $routes->get('attraction/maps', 'Attraction::maps');
     $routes->get('attraction/detail/(:segment)', 'Attraction::detail/$1');
     $routes->get('uniqueAttraction', 'Attraction::uniqueAttraction');

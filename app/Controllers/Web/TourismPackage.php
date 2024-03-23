@@ -360,4 +360,29 @@ class TourismPackage extends ResourcePresenter
             return $this->failNotFound($response);
         }
     }
+    public function detail($homestay_id = null, $package_id = null)
+    {
+        $homestay = $this->homestayModel->get_hs_by_id_api($homestay_id)->getRowArray();
+        $data = $this->getPackageDetail($homestay_id, $package_id);
+        $reservations = $this->reservationModel->get_reservation_by_cpid($homestay_id, $package_id)->getResultArray();
+        $rating = 0;
+        $rating_divider = 0;
+        foreach ($reservations as $reservation) {
+            if ($reservation['rating'] != null) {
+                $rating = $rating + $reservation['rating'];
+                $rating_divider++;
+            }
+        }
+        if ($rating != 0) {
+            $avg_rating = $rating / $rating_divider;
+        } else {
+            $avg_rating = 0;
+        }
+        $data['data']['avg_rating'] = $avg_rating;
+
+        $data['title'] = 'Package Detail';
+
+        $data['homestay'] = $homestay;
+        return view('maps/package_detail', $data);
+    }
 }
