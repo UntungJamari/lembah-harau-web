@@ -70,7 +70,7 @@ function initMap(lat = -0.5242972, lng = 100.492333, mobile = false) {
     map = new google.maps.Map(document.getElementById("googlemaps"), {
       zoom: 18,
       center: center,
-      mapTypeControl: false,
+      mapTypeControl: "roadmap",
     });
   }
   var rendererOptions = {

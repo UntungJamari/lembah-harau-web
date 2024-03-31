@@ -16,6 +16,13 @@
 
 <section class="section text-dark">
     <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-danger btn-sm align-items-center ms-1 mb-3" data-bs-toggle="modal" data-bs-target="#infoModal">
+                <i class="fa fa-info" aria-hidden="true"></i><i>Read this guide</i>
+            </button>
+        </div>
+    </div>
+    <div class="row">
         <script>
             currentUrl = '<?= current_url(); ?>';
 
@@ -903,6 +910,65 @@
             </div>
         </div>
     <?php endif; ?>
+    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Reservation Guide</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <b>Homesatay Reservation</b>
+                    <li>Reservations can be made before 3 days before check-in</li>
+                    <li>After you make a homestay reservation, you can add tour packages and additional amenities later</li>
+                    <br>
+                    <b>Package Reservation</b>
+                    <ol>
+                        <li>Available Package</li>
+                        <ul>
+                            <li>Tourists can choose a tour package provided by homestay </li>
+                            <li>Total people must meet the minimum capacity</li>
+                            <li>If there is less than the minimum number of people then the price is calculated as 1 package</li>
+                            <li>If there is more than the minimum number of 1 package, then if the additional &lt;5 you pay plus half the package price, if &gt;=5 you pay plus 1 package price, so for multiples of the minimum capacity</li>
+                            <li>Tourists only need to confirm the package price</li>
+                        </ul>
+                        <li>Extend Package</li>
+                        <ul>
+                            <li>Tourists can choose a tour package provided by homestay to extend it</li>
+                            <li>Tourists can add more day on package, but can not exceed the day of stay</li>
+                            <li>Tourists can add activities and services</li>
+                            <li>Package price will automatically calculated after tourist add activity or service</li>
+                            <li>Total people must meet the minimum capacity of package</li>
+                            <li>If there is less than the minimum number of people then the price is calculated as 1 package</li>
+                            <li>If there is more than the minimum number of 1 package, then if the additional &lt;5 you pay plus half the package price, if &gt;=5 you pay plus 1 package price, so for multiples of the minimum capacity</li>
+                        </ul>
+                        <li>Custom Package</li>
+                        <ul>
+                            <li>Tourists can make their own package from 0</li>
+                            <li>Tourists can add more day on package, but can not exceed the day of stay</li>
+                            <li>Tourists can add activities and services</li>
+                            <li>Package price will automatically calculated after tourist add activity or service</li>
+                            <il>There will be no minimum capacity of package</il>
+                        </ul>
+                    </ol>
+                    <br>
+                    <b>Additional Amenities Reservation</b>
+                    <li>Ordering additional amenities will be subject to an additional cost</li>
+                    <li>The calculation for ordering these additional amenities is based on 3 things, day of stay, total people, and/or rooms</li>
+                    <br>
+                    <b>Reservation Payment</b>
+                    <li>Total price is the sum of homestay reservation price, package reservation price and additional amenities reservation price</li>
+                    <li>The deposit payment is 20% of the total price and is paid a maximum of 2 days before check in</li>
+                    <li>Cancellations of reservations can be made up to 1 days before check in, in this case the deposit paid will be returned 50%</li>
+                    <li>If cancellation is made after 3 day before check in, the deposit will not be returned</li>
+                    <li>The Full payment can be paid on the day of tourist visit at a maximum of 18:00 WIB</li>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <?= $this->endSection() ?>

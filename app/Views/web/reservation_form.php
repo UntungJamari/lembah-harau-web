@@ -14,6 +14,11 @@
                     event.preventDefault();
                     Swal.fire('Please select at least 1 unit to make reservation!');
                 }
+
+                if (!$('#readCheckbox').is(':checked')) {
+                    event.preventDefault();
+                    Swal.fire('Please read the guide and click on confirmation!');
+                }
             }
         </script>
 
@@ -24,25 +29,19 @@
                     <div class="row align-items-center">
                         <div class="col">
                             <h4 class="card-title"><?= esc($title); ?></h4>
-                            <!-- <div class="text-center">
-                                <?php
-                                // for ($i = 0; $i < (int)esc($data['avg_rating']); $i++) { 
-                                ?>
-                                    <span class="material-symbols-outlined rating-color">star</span>
-                                <?php
-                                // } 
-                                ?>
-                                <?php
-                                // for ($i = 0; $i < (5 - (int)esc($data['avg_rating'])); $i++) { 
-                                ?>
-                                    <span class="material-symbols-outlined">star</span>
-                                <?php
-                                // } 
-                                ?>
-                            </div> -->
                         </div>
                         <div class="col">
                             <button form="reservation-form" type="submit" class="float-end btn btn-primary">Make Reservation</button>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <button type="button" class="btn btn-danger btn-sm align-items-center" data-bs-toggle="modal" data-bs-target="#infoModal"><i class="fa fa-info" aria-hidden="true"></i><i> Guide</i></button>
+                            <br>
+                            <input type="radio" id="readCheckbox" name="readCheckbox" required="">
+                            <label for="readCheckbox"><i>I have read this guide</i></label>
+                        </div>
+                        <div class="col">
                         </div>
                     </div>
                 </div>
@@ -156,6 +155,28 @@
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Reservation Guide</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <b>Homesatay Reservation</b>
+                    <li>Read this guide and click on confirmation</li>
+                    <li>Reservations can be made before 3 days before check-in</li>
+                    <li>Insert check in date first and then day of stay and unit type</li>
+                    <li>Total people also required</li>
+                    <li>You need to select at least 1 unit to make reservation</li>
+                    <li>After you make a homestay reservation, you can add tour packages and additional amenities later</li>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

@@ -98,7 +98,7 @@ $edit = in_array('edit', $uri);
                                         <span class="fw-bold">Day <?= esc($day['day']); ?></span>
                                         <a class="btn icon btn-danger btn-sm mb-3 float-end" onclick="deletePackageDay('<?= esc($data['homestay_id']); ?>','<?= esc($data['id']); ?>','<?= esc($day['day']); ?>')"><i class="fa-solid fa-trash"></i></a>
                                         <p><?= esc($day['description']); ?></p>
-                                        <table class="table table-hover dt-head-center" id="table-manage" style="font-size: small;">
+                                        <table class="table table-hover dt-head-center text-dark" id="table-manage" style="font-size: small;">
                                             <thead>
                                                 <tr>
                                                     <th>No</th>
@@ -156,7 +156,7 @@ $edit = in_array('edit', $uri);
                             <a class="btn icon btn-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addPackageService"><i class="fa-solid fa-add"></i> Service</a>
                             <div class="table-responsive">
                                 <span class="fw-bold">Included</span>
-                                <table class="table table-hover dt-head-center" id="table-manage" style="font-size: small;">
+                                <table class="table table-hover dt-head-center text-dark" id="table-manage" style="font-size: small;">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -191,7 +191,7 @@ $edit = in_array('edit', $uri);
                             <hr class="hr" />
                             <div class="table-responsive">
                                 <span class="fw-bold">Excluded</span>
-                                <table class="table table-hover dt-head-center" id="table-manage" style="font-size: small;">
+                                <table class="table table-hover dt-head-center text-dark" id="table-manage" style="font-size: small;">
                                     <thead>
                                         <tr>
                                             <th>No</th>
