@@ -39,22 +39,22 @@ $uri3 = $uri[3] ?? '';
                     <?php if (url_is('*homestay*')) : ?>
                         <li class="sidebar-item <?= ($uri1 == 'homestay') ? 'active' : '' ?>">
                             <a href="<?= base_url('web/homestay'); ?><?= esc('/' . $homestay_id); ?>" class="sidebar-link">
-                                <i class="fa-solid fa-bed"></i><span> Homestay</span>
+                                <i class="fa-solid fa-bed"></i><span class="text-dark fw-bold"> Homestay</span>
                             </a>
                         </li>
                         <li class="sidebar-item <?= ($uri1 == 'homestayUnit') ? 'active' : '' ?>">
                             <a href="<?= base_url('web/homestayUnit/'); ?><?= esc('/' . $homestay_id); ?>" class="sidebar-link">
-                                <i class="fa-solid fa-door-open"></i><span> Unit</span>
+                                <i class="fa-solid fa-door-open"></i><span class="text-dark fw-bold"> Unit</span>
                             </a>
                         </li>
                         <li class="sidebar-item <?= ($uri1 == 'homestayPackage') ? 'active' : '' ?>">
                             <a href="<?= base_url('web/homestayPackage'); ?><?= esc('/' . $homestay_id); ?>" class="sidebar-link">
-                                <i class="fa-solid fa-box-open"></i><span> Package</span>
+                                <i class="fa-solid fa-box-open"></i><span class="text-dark fw-bold"> Package</span>
                             </a>
                         </li>
                         <li class="sidebar-item <?= ($uri1 == 'homestayAdditionalAmenities') ? 'active' : '' ?>">
                             <a href="<?= base_url('web/homestayAdditionalAmenities'); ?><?= esc('/' . $homestay_id); ?>" class="sidebar-link">
-                                <i class="fa-solid fa-list-ol"></i><span> Additional Amenities</span>
+                                <i class="fa-solid fa-list-ol"></i><span class="text-dark fw-bold"> Additional Amenities</span>
                             </a>
                         </li>
                     <?php endif; ?>

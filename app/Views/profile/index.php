@@ -1,6 +1,7 @@
 <!doctype html>
 <?php $uri = service('uri')->getSegments(); ?>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,16 +26,14 @@
     <script src="<?= base_url('assets/js/extensions/sweetalert2.js'); ?>"></script>
     <script src="https://kit.fontawesome.com/de7d18ea4d.js" crossorigin="anonymous"></script>
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
-    <link
-            href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-            rel="stylesheet"
-    />
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 
     <!-- Google Maps API and Custom JS -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8B04MTIk7abJDVESr6SUF6f3Hgt1DPAY&libraries=drawing"></script>
     <script src="<?= base_url('js/web.js'); ?>"></script>
-    
+
 </head>
+
 <body>
     <div id="app">
         <!-- Sidebar -->
@@ -54,7 +53,7 @@
         </div>
         <!-- End Main -->
     </div>
-    
+
     <!-- Template CSS -->
     <script src="<?= base_url('assets/js/app.js'); ?>"></script>
 

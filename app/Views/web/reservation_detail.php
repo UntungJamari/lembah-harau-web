@@ -226,7 +226,7 @@
                                                     </div>
                                                     <div class="col">
                                                         <?php if ($reservation['status'] == null) : ?>
-                                                            <a title="Delete Package" class="btn icon btn-danger btn-sm mb-1 float-end" href="/web/reservation/package/delete/<?= esc($reservation['id']); ?>">
+                                                            <a title="Delete Package" class="btn icon btn-danger btn-sm mb-1 float-end" onclick="confirmDeletePackage('<?= esc($reservation['id']); ?>')">
                                                                 <i class="fa-solid fa-trash"></i>
                                                             </a>
                                                             <?php if ($package['is_custom'] == '1') : ?>
@@ -984,6 +984,19 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href = "/web/reservation/finish/" + reservation_id + "/" + deposit + "/" + total_price;
+            }
+        });
+    }
+
+    function confirmDeletePackage(reservation_id) {
+        Swal.fire({
+            title: "Do you want to delete package from reservation?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/web/reservation/package/delete/" + reservation_id;
             }
         });
     }
