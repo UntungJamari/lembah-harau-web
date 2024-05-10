@@ -25,6 +25,7 @@ class HomestayUnitModel extends Model
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
+    //Mendapatkan daftar unit homestay pada suatu homestay
     public function get_list_hu_api($homestay_id)
     {
         $columns = "{$this->table}.homestay_id,{$this->table}.unit_type,{$this->table}.unit_number,{$this->table}.name,{$this->table}.price,{$this->table}.capacity,{$this->table}.description";
@@ -93,7 +94,7 @@ class HomestayUnitModel extends Model
             ->insert($homestayUnit);
         return $insert;
     }
-
+    //Mendpatakan detail unit homestay
     public function get_hu_by_id_api($homestay_id = null, $unit_type = null, $unit_number = null)
     {
 

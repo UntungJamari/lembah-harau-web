@@ -15,22 +15,6 @@
                     <div class="row align-items-center">
                         <div class="col">
                             <h4 class="card-title">Tourism Package</h4>
-                            <!-- <div class="text-center">
-                                <?php
-                                // for ($i = 0; $i < (int)esc($data['avg_rating']); $i++) { 
-                                ?>
-                                    <span class="material-symbols-outlined rating-color">star</span>
-                                <?php
-                                // } 
-                                ?>
-                                <?php
-                                // for ($i = 0; $i < (5 - (int)esc($data['avg_rating'])); $i++) { 
-                                ?>
-                                    <span class="material-symbols-outlined">star</span>
-                                <?php
-                                // }                                 
-                                ?>
-                            </div> -->
                         </div>
                     </div>
                 </div>

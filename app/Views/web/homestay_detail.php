@@ -15,22 +15,6 @@
                     <div class="row align-items-center">
                         <div class="col">
                             <h4 class="card-title">Homestay Information</h4>
-                            <!-- <div class="text-center">
-                                <?php
-                                // for ($i = 0; $i < (int)esc($data['avg_rating']); $i++) { 
-                                ?>
-                                    <span class="material-symbols-outlined rating-color">star</span>
-                                <?php
-                                // } 
-                                ?>
-                                <?php
-                                // for ($i = 0; $i < (5 - (int)esc($data['avg_rating'])); $i++) { 
-                                ?>
-                                    <span class="material-symbols-outlined">star</span>
-                                <?php
-                                // } 
-                                ?>
-                            </div> -->
                         </div>
                         <?php if (in_groups('user')) : ?>
                             <div class="col">
@@ -79,12 +63,6 @@
                                         <td class="fw-bold">Close</td>
                                         <td><?= date('H:i', strtotime(esc($data['close']))) . ' WIB'; ?></td>
                                     </tr>
-                                    <!-- <tr>
-                                        <td class="fw-bold">Ticket Price</td>
-                                        <td><?php
-                                            // 'Rp ' . number_format(esc($data['ticket_price']), 0, ',', '.'); 
-                                            ?></td>
-                                    </tr> -->
                                     <tr>
                                         <td class="fw-bold">Contact Person</td>
                                         <td><?= esc($data['phone']);

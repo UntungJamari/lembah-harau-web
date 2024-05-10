@@ -79,6 +79,7 @@ class Homestay extends ResourcePresenter
      *
      * @return mixed
      */
+    // Daftar Homestay
     public function index()
     {
         $contents = $this->homestayModel->get_list_hs_api()->getResultArray();
@@ -97,19 +98,23 @@ class Homestay extends ResourcePresenter
      *
      * @return mixed
      */
+    //Fungsi mendapatkan detail homestay
     public function show($id = null)
     {
+        //Mendapatkan detal homestay
         $homestay = $this->homestayModel->get_hs_by_id_api($id)->getRowArray();
         if (empty($homestay)) {
             return redirect()->to(substr(current_url(), 0, -strlen($id)));
         }
 
+        //Mendapatkan fasilitas homestay
         $list_facility = $this->homestayFacilityDetailModel->get_facility_by_hs_api($id)->getResultArray();
         $facilities = array();
         foreach ($list_facility as $facility) {
             $facilities[] = $facility['name'];
         }
 
+        //Mendapatkan rerata rating dan review homestay
         $getRID = $this->reservationHomestayUnitDetailModel->get_reservation_by_hs_api($id)->getResultArray();
 
         $rating_review = array();
@@ -136,8 +141,7 @@ class Homestay extends ResourcePresenter
         $homestay['avg_rating'] = $avg_rating;
         $homestay['rating_review'] = $rating_review;
 
-        // $list_review = $this->reviewModel->get_review_object_api('rumah_gadang_id', $id)->getResultArray();
-
+        //Mendapatkan galeri homestay
         $list_gallery = $this->homestayGalleryModel->get_gallery_api($id)->getResultArray();
         $galleries = array();
         foreach ($list_gallery as $gallery) {
@@ -146,7 +150,6 @@ class Homestay extends ResourcePresenter
 
 
         $homestay['facilities'] = $facilities;
-        // $rumahGadang['reviews'] = $list_review;
         $homestay['gallery'] = $galleries;
 
         $data = [

@@ -60,6 +60,7 @@ class PackageDetailModel extends Model
             ->get();
         return $query;
     }
+    //Mendapatkan detail paket wisata
     public function get_pd_by_pacakage_id_api($homestay_id = null, $package_id = null)
     {
         $columns = "{$this->table}.package_id,{$this->table}.day,{$this->table}.activity,{$this->table}.activity_type,{$this->table}.id_object,{$this->table}.description,{$this->table}.is_base_for_extend";

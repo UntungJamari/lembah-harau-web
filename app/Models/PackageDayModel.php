@@ -57,6 +57,7 @@ class PackageDayModel extends Model
             ->insert($package_day);
         return $insert;
     }
+    //Mendapatkan daftar hari paket wisata
     public function get_pd_by_pacakage_id_api($homestay_id = null, $package_id = null)
     {
         $columns = "{$this->table}.package_id,{$this->table}.day,{$this->table}.description,{$this->table}.is_base_for_extend";

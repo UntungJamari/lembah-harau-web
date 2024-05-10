@@ -38,6 +38,7 @@ class HomestayUnitGalleryModel extends Model
         return $id;
     }
 
+    //Mendapatkan galeri unit homestay
     public function get_gallery_api($homestay_id = null, $unit_type = null, $unit_number = null)
     {
         $query = $this->db->table($this->table)

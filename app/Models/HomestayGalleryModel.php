@@ -38,6 +38,7 @@ class HomestayGalleryModel extends Model
         return $id;
     }
 
+    //Mendapatkan galeri homestay
     public function get_gallery_api($homestay_id = null)
     {
         $query = $this->db->table($this->table)

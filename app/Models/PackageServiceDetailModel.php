@@ -25,6 +25,7 @@ class PackageServiceDetailModel extends Model
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
+    //Mendapatkan daftar service paket wisata
     public function get_list_service_by_id($homestay_id = null, $package_id = null)
     {
         $columns = "{$this->table}.package_id,{$this->table}.package_service_id,{$this->table}.status,{$this->table}.is_base_for_extend";

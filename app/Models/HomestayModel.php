@@ -25,9 +25,9 @@ class HomestayModel extends Model
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
+    //Mendapatkan data daftar homestay
     public function get_list_hs_api()
     {
-        //$coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
         $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.owner,{$this->table}.open,{$this->table}.close,{$this->table}.description,{$this->table}.video_url";
         $geoJson = "ST_AsGeoJSON({$this->table}.geom) AS geoJson";
         $vilGeom = "village.id = '1' AND ST_Contains(village.geom, {$this->table}.geom)";
@@ -94,9 +94,9 @@ class HomestayModel extends Model
         return $insert && $update;
     }
 
+    //Fungsi mendapatkan data detail homestay
     public function get_hs_by_id_api($id = null)
     {
-        //$coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
         $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.open,{$this->table}.close,{$this->table}.owner,{$this->table}.description,{$this->table}.video_url";
         $geoJson = "ST_AsGeoJSON({$this->table}.geom) AS geoJson";
         $vilGeom = "village.id = '1' AND ST_Contains(village.geom, {$this->table}.geom)";

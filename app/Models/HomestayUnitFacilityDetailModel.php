@@ -36,6 +36,8 @@ class HomestayUnitFacilityDetailModel extends Model
             ->get();
         return $query;
     }
+
+    //Mendapatkan fasilitas unit homestay
     public function get_facility_by_hu_api($homestay_id = null, $unit_type = null, $unit_number = null)
     {
         $query = $this->db->table($this->table)

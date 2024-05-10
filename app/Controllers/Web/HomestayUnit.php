@@ -483,9 +483,13 @@ class HomestayUnit extends ResourcePresenter
             return $this->failNotFound($response);
         }
     }
+
+    //Fungsi mendapatkan daftar unit homestay pada suatu homestay
     public function getListUnit($homestay_id = null)
     {
+        //Mendapatkan data homestay
         $homestay = $this->homestayModel->get_hs_by_id_api($homestay_id)->getRowArray();
+        //Mendapatakn data unit homestay
         $contents = $this->homestayUnitModel->get_list_hu_api($homestay_id)->getResultArray();
 
         for ($i = 0; $i < count($contents); $i++) {
@@ -493,6 +497,8 @@ class HomestayUnit extends ResourcePresenter
         }
 
         for ($i = 0; $i < count($contents); $i++) {
+
+            //Mendapatkan rerata rating dan review unit homestay
             $getRID = $this->reservationHomestayUnitDetailModel->get_reservation_by_huid($homestay_id, $contents[$i]['unit_type'], $contents[$i]['unit_number'])->getResultArray();
             $rating = 0;
             $rating_divider = 0;
@@ -509,6 +515,7 @@ class HomestayUnit extends ResourcePresenter
                 $avg_rating = 0;
             }
             $contents[$i]['avg_rating'] = $avg_rating;
+            //Mendapatkan galeri unit homestay
             $list_gallery = $this->homestayUnitGalleryModel->get_gallery_api($homestay_id, $contents[$i]['unit_type'], $contents[$i]['unit_number'])->getResultArray();
             $galleries = array();
             foreach ($list_gallery as $gallery) {
@@ -528,15 +535,19 @@ class HomestayUnit extends ResourcePresenter
         return view('web/homestay_unit_list', $data);
     }
 
+    //Fungsi mendapatkan detail unit homestay
     public function detailUnit($homestay_id = null, $id = null)
     {
         $unit_type = substr($id, 0, 1);
         $unit_number = substr($id, 1);
 
+        //Mendapatkan data homestay
         $homestay = $this->homestayModel->get_hs_by_id_api($homestay_id)->getRowArray();
 
+        // Mendapatkan data unit homestay
         $homestayUnit = $this->homestayUnitModel->get_hu_by_id_api($homestay_id, $unit_type, $unit_number)->getRowArray();
 
+        //mendapatkan rerata rating dan review unit homestay
         $getRID = $this->reservationHomestayUnitDetailModel->get_reservation_by_huid($homestay_id, $unit_type, $unit_number)->getResultArray();
 
         $rating_review = array();
@@ -562,19 +573,16 @@ class HomestayUnit extends ResourcePresenter
         $homestayUnit['avg_rating'] = $avg_rating;
         $homestayUnit['rating_review'] = $rating_review;
 
-
+        //Mendapatkan fasilitas unit homestay
         $list_facility = $this->homestayUnitFacilityDetailModel->get_facility_by_hu_api($homestay_id, $unit_type, $unit_number)->getResultArray();
 
-        // $list_review = $this->reviewModel->get_review_object_api('rumah_gadang_id', $id)->getResultArray();
-
+        //Mendapatkan galleri unit homestay
         $list_gallery = $this->homestayUnitGalleryModel->get_gallery_api($homestay_id, $unit_type, $unit_number)->getResultArray();
         $galleries = array();
         foreach ($list_gallery as $gallery) {
             $galleries[] = $gallery['url'];
         }
 
-        // $homestay['facilities'] = $facilities;
-        // $rumahGadang['reviews'] = $list_review;
         $homestayUnit['gallery'] = $galleries;
 
         $data = [

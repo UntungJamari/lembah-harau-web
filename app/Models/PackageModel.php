@@ -49,7 +49,7 @@ class PackageModel extends Model
             ->get();
         return $query;
     }
-
+    // Mendpatakan daftar paket wisata pada suatu homestay
     public function list_by_homestay_api($homestay_id = null)
     {
         $columns = "{$this->table}.homestay_id,{$this->table}.package_id,{$this->table}.name,{$this->table}.min_capacity,{$this->table}.brochure_url,{$this->table}.description,{$this->table}.price,{$this->table}.is_custom";
@@ -82,10 +82,9 @@ class PackageModel extends Model
             ->insert($package);
         return $insert;
     }
-
+    //Mendapatkan detail paket wisata
     public function get_package_by_id_api($homestay_id = null, $package_id = null)
     {
-
         $columns = "{$this->table}.package_id,{$this->table}.homestay_id,{$this->table}.name,{$this->table}.min_capacity,{$this->table}.brochure_url,{$this->table}.description,{$this->table}.price,{$this->table}.is_custom";
         $query = $this->db->table($this->table)
             ->select("{$columns}")

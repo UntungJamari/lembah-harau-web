@@ -1113,9 +1113,11 @@ function radiusSearch({ postfix = null } = {}) {
   }
 }
 
-// pan to selected object
+// Fungsi untuk memfokuskan pada suatu objek pada peta berdasarkan ID
 function focusObject(id) {
+  //Trigger event click
   google.maps.event.trigger(markerArray[id], "click");
+  //menentukan fokus
   map.panTo(markerArray[id].getPosition());
 }
 

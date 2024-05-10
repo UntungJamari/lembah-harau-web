@@ -25,6 +25,7 @@ class HomestayAdditionalAmenitiesModel extends Model
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
+    //Mendapatkan daftar amenities tambahan pada homestay
     public function get_list_haa_api($homestay_id)
     {
         $query = $this->db->table($this->table)

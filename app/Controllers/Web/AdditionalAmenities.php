@@ -150,11 +150,14 @@ class AdditionalAmenities extends ResourcePresenter
             return $this->failNotFound($response);
         }
     }
+    //Fungsi mendapatkan daftar amenities tambahan pada homestay
     public function getListAdditionalAmenities($homestay_id = null)
     {
         $homestay = $this->homestayModel->get_hs_by_id_api($homestay_id)->getRowArray();
+        //Mendapatkan daftar amenities tambahan
         $contents = $this->homestayAdditionalAmenitiesModel->get_list_haa_api($homestay_id)->getResultArray();
         for ($i = 0; $i < count($contents); $i++) {
+            // Mendapatkan rerata rating dan review amenities tambahan
             $getRID = $this->reservationHomestayAdditionalAmenitiesDetailModel->get_res_by_act_id($homestay_id, $contents[$i]['additional_amenities_id'])->getResultArray();
             $rating = 0;
             $rating_divider = 0;

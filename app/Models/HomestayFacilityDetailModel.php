@@ -25,6 +25,7 @@ class HomestayFacilityDetailModel extends Model
     protected $cleanValidationRules = true;
 
     // API
+    //Mendapatkan fasilitas homestay
     public function get_facility_by_hs_api($homestay_id = null)
     {
         $query = $this->db->table($this->table)

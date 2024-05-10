@@ -196,6 +196,7 @@ class TourismPackage extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //Fungsi mendapatkan detail data paket wisata
     public function show($homestay_id = null, $package_id = null)
     {
         if (url_is('*dashboard*')) {
@@ -204,7 +205,9 @@ class TourismPackage extends ResourcePresenter
             $homestay_id = $homestay['id'];
         }
         $homestay = $this->homestayModel->get_hs_by_id_api($homestay_id)->getRowArray();
+        //Mendapatkan detail data paket wisata
         $data = $this->getPackageDetail($homestay_id, $package_id);
+        //Mendapatkan rerata rating dan review pakeet wisata
         $reservations = $this->reservationModel->get_reservation_by_cpid($homestay_id, $package_id)->getResultArray();
         $rating = 0;
         $rating_divider = 0;
@@ -231,13 +234,17 @@ class TourismPackage extends ResourcePresenter
         }
         return view('dashboard/package_detail', $data);
     }
+    //Fungsi mendapatkan detail data paket wisata
     public function getPackageDetail($homestay_id = null, $package_id = null)
     {
+        //Medapatkan data paket wisata
         $package = $this->packageModel->get_package_by_id_api($homestay_id, $package_id)->getRowArray();
         $package['gallery'] = [$package['brochure_url']];
 
+        //Mendapatkan daftar hari pada paket wisata
         $package_day = $this->packageDayModel->get_pd_by_pacakage_id_api($homestay_id, $package_id)->getResultArray();
 
+        //Mendapatkan daftar aktivitas pada paket wisata
         $list_activity = $this->packageDetailModel->get_pd_by_pacakage_id_api($homestay_id, $package_id)->getResultArray();
         for ($i = 0; $i < count($list_activity); $i++) {
             if (substr($list_activity[$i]['id_object'], 0, 1) === 'A') {
@@ -286,8 +293,8 @@ class TourismPackage extends ResourcePresenter
             }
         }
 
+        //Mendapatkan daftar service pada paket wisata
         $list_service = $this->packageServiceDetailModel->get_list_service_by_id($homestay_id, $package_id)->getResultArray();
-        // dd($list_service);
 
         $package['id'] = $package['package_id'];
         $data = [
@@ -299,12 +306,16 @@ class TourismPackage extends ResourcePresenter
         ];
         return $data;
     }
+
+    //Fungsi mendapatkan daftar paket wisata pada suatu homestay
     public function getListPackage($homestay_id = null)
     {
         $homestay = $this->homestayModel->get_hs_by_id_api($homestay_id)->getRowArray();
+        //Mendapatkan daftar paket wisata pada suatu homestay
         $contents = $this->packageModel->list_by_homestay_api($homestay_id)->getResultArray();
 
         for ($i = 0; $i < count($contents); $i++) {
+            //Mendapatkan rerata rating dan review paket wisata 
             $reservations = $this->reservationModel->get_reservation_by_cpid($homestay_id, $contents[$i]['package_id'])->getResultArray();
             $rating = 0;
             $rating_divider = 0;
@@ -321,6 +332,7 @@ class TourismPackage extends ResourcePresenter
             }
             $contents[$i]['avg_rating'] = $avg_rating;
             $contents[$i]['id'] = $contents[$i]['package_id'];
+            //mendapatkan jumlah hari paket wisata
             $package_detail = $this->packageDetailModel->get_pd_by_pacakage_id_api($homestay['id'], $contents[$i]['id'])->getResultArray();
             if (empty($package_detail)) {
                 $contents[$i]['total_day'] = '0';

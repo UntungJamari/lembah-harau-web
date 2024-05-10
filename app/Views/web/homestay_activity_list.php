@@ -15,22 +15,6 @@
                     <div class="row align-items-center">
                         <div class="col">
                             <h4 class="card-title">Additional Amenities</h4>
-                            <!-- <div class="text-center">
-                                <?php
-                                // for ($i = 0; $i < (int)esc($data['avg_rating']); $i++) { 
-                                ?>
-                                    <span class="material-symbols-outlined rating-color">star</span>
-                                <?php
-                                // } 
-                                ?>
-                                <?php
-                                // for ($i = 0; $i < (5 - (int)esc($data['avg_rating'])); $i++) { 
-                                ?>
-                                    <span class="material-symbols-outlined">star</span>
-                                <?php
-                                // } 
-                                ?>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -48,6 +32,7 @@
                                                 <h5 class="card-title"><?= esc($item['name']) ?></h5>
                                             </div>
                                             <div class="col">
+                                                <!-- Tombol untuk menampilkan detail -->
                                                 <a title="Detail Homestay Unit" class="btn icon btn-outline-info btn-sm mb-1 me-1 float-end" data-bs-toggle="modal" data-bs-target="#infoAmenities<?= esc($item['id']); ?>">
                                                     <i class="fa-solid fa-circle-info"></i>
                                                 </a>
