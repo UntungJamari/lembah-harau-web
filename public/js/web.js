@@ -3557,7 +3557,7 @@ function getOrderField(
       objs =
         objs +
         ' <div class="form-group mb-4">' +
-        '<label for="address" class="mb-2">Room Order</label>' +
+        '<label for="address" class="mb-2">Order</label>' +
         '<input type="number" class="form-control" id="roomOrder" name="room_order" min="1" onchange="getTotalOrder(' +
         price +
         ')" required>' +

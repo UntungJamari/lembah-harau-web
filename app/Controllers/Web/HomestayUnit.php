@@ -162,12 +162,15 @@ class HomestayUnit extends ResourcePresenter
      *
      * @return mixed
      */
+    //Fungsi menambahkan data unit homestay
     public function create()
     {
+        //Mendapatkan data yang dikirim oleh form
         $request = $this->request->getPost();
-        // $id = $this->homestayModel->get_new_id_api();
+
         $homestay = $this->homestayModel->list_by_owner_api(user()->id)->getRowArray();
-        // dd($homestay['id']);
+
+        //Mendapatkan id unit homestay baru
         $id = $this->homestayUnitModel->get_new_id_api($homestay['id'], $request['unit_type']);
         $requestData = [
             'homestay_id' => $homestay['id'],
@@ -184,7 +187,7 @@ class HomestayUnit extends ResourcePresenter
             }
         }
 
-        // $addHS = $this->homestayModel->add_hs_api($requestData, $geojson);
+        //Menambahkan data unit homestay baru
         $addHS = $this->homestayUnitModel->add_hs_api($requestData);
 
         if (isset($request['gallery'])) {
@@ -199,6 +202,7 @@ class HomestayUnit extends ResourcePresenter
                 rmdir($filepath);
                 $gallery[] = $fileImg->getFilename();
             }
+            //Menambahkan data galeri unit homestay
             $this->homestayUnitGalleryModel->add_gallery_api($homestay['id'], $request['unit_type'], $id, $gallery);
         }
 
@@ -246,6 +250,7 @@ class HomestayUnit extends ResourcePresenter
      *
      * @return mixed
      */
+    //mengubah data unit homestay
     public function update($id = null)
     {
 
@@ -311,12 +316,15 @@ class HomestayUnit extends ResourcePresenter
      *
      * @return mixed
      */
+    //Fungsi menghapus data unit homestay
     public function delete($id = null)
     {
+        //Mendapatkan data homestay
         $homestay = $this->homestayModel->list_by_owner_api(user()->id)->getRowArray();
         $unit_type = substr($id, 0, 1);
         $unit_number = substr($id, 1);
 
+        //Menghapus unit homestay
         $deleteS = $this->homestayUnitModel->delete_hu_api($homestay['id'], $unit_type, $unit_number);
         if ($deleteS) {
             $response = [
@@ -367,6 +375,7 @@ class HomestayUnit extends ResourcePresenter
         return view('maps/rumah_gadang', $data);
     }
 
+    //Fungsi mendapatkan detail unit homestay
     public function detail($homestay_id = null, $unit_type = null, $unit_number = null)
     {
         $homestay = $this->homestayModel->get_hs_by_id_api($homestay_id)->getRowArray();

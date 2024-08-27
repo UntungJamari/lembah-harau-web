@@ -60,8 +60,10 @@ class AdditionalAmenities extends ResourcePresenter
 
         return view('dashboard/manage', $data);
     }
+    //Fungsi menambahkan amenities tambahan
     public function create()
     {
+        //Mendapatkan data dari form
         $request = $this->request->getPost();
         $homestay = $this->homestayModel->list_by_owner_api(user()->id)->getRowArray();
 
@@ -79,6 +81,7 @@ class AdditionalAmenities extends ResourcePresenter
 
         $request['homestay_id'] = $homestay['id'];
         $request['image_url'] = $gallery[0];
+        //Menambahkan data amenities tambahan baru
         $addHS = $this->homestayAdditionalAmenitiesModel->add_haa_api($request);
 
         if ($addHS) {
@@ -87,6 +90,7 @@ class AdditionalAmenities extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //mengubah data amenities tambahan
     public function update($activity_id = null)
     {
         $request = $this->request->getPost();
@@ -129,6 +133,7 @@ class AdditionalAmenities extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //Fungsi menghapus data amenities tambahan
     public function delete($homestay_id = null, $id = null)
     {
         $deleteS = $this->homestayAdditionalAmenitiesModel->del_activity($homestay_id, $id);
@@ -253,7 +258,7 @@ class AdditionalAmenities extends ResourcePresenter
         ];
         return $this->respond($response);
     }
-
+    //menghapus amenities tambahan dari reservasi
     public function deleteAdditionalAmenities($homestay_id = null, $additional_amenities_id = null, $reservation_id = null)
     {
         $deleteS = $this->reservationHomestayAdditionalAmenitiesDetailModel->del_haa_by_id_api($homestay_id, $additional_amenities_id, $reservation_id);

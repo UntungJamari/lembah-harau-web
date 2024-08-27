@@ -88,6 +88,7 @@ class AccountModel extends Model
         return $query;
     }
 
+    //mendapatkan data daftar user
     public function get_list_user_api()
     {
         $query = $this->db->table('users')
@@ -98,6 +99,7 @@ class AccountModel extends Model
         return $query;
     }
 
+    //mendapatkan detail data user
     public function get_account_by_id_api($id = null)
     {
         $query = $this->db->table('users')
@@ -116,6 +118,7 @@ class AccountModel extends Model
         return $query;
     }
 
+    //mengubah data user
     public function update_account_users($id = null, $data = null)
     {
         $query = $this->db->table('users')
@@ -137,7 +140,7 @@ class AccountModel extends Model
             ->update($data, ['user_id' => $id]);
         return $query;
     }
-
+    //menghapus data user
     public function delete_user_api($id = null)
     {
         $query = $this->db->table('users')

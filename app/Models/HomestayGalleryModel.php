@@ -49,6 +49,7 @@ class HomestayGalleryModel extends Model
         return $query;
     }
 
+    //Menambahkan data galeri homestay
     public function add_gallery_api($id = null, $data = null)
     {
         $query = false;

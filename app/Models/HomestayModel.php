@@ -69,6 +69,7 @@ class HomestayModel extends Model
         return $query;
     }
 
+    //Mendapatkan id homestay baru
     public function get_new_id_api()
     {
         $lastId = $this->db->table($this->table)->select('id')->orderBy('id', 'ASC')->get()->getLastRow('array');
@@ -81,6 +82,7 @@ class HomestayModel extends Model
         return $id;
     }
 
+    //Menbahkan data homestay baru
     public function add_hs_api($homestay = null, $geojson = null)
     {
         $homestay['created_at'] = Time::now();
@@ -110,6 +112,7 @@ class HomestayModel extends Model
         return $query;
     }
 
+    //mengubah data homestay
     public function update_hs_api($id = null, $homestay = null, $geojson = null)
     {
         $homestay['updated_at'] = Time::now();

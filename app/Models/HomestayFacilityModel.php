@@ -36,6 +36,7 @@ class HomestayFacilityModel extends Model
         $id = sprintf('%02d', $count + 1);
         return $id;
     }
+    //mendapatkan data fasilitas homestay
     public function get_list_fc_api()
     {
         $query = $this->db->table($this->table)
@@ -43,6 +44,7 @@ class HomestayFacilityModel extends Model
             ->get();
         return $query;
     }
+    //menambahkan data fasilitas homestay
     public function add_hf_api($product = null)
     {
         $new_id = $this->get_new_id_api();
@@ -53,6 +55,8 @@ class HomestayFacilityModel extends Model
             ->insert($product);
         return $insert;
     }
+
+    //Mengubah data fasilitas homestay
     public function edit_hf_api($product = null)
     {
         $product['updated_at'] = Time::now();

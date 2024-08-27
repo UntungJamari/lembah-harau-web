@@ -36,6 +36,7 @@ class ReservationHomestayUnitDetailModel extends Model
             ->get();
         return $query;
     }
+    // Menambahkan data unit homestay yang direservasi
     public function add_reservation_detail_api($homestay_id = null, $unit_type = null, $unit_number = null, $date = null, $reservation_id = null)
     {
         $reservationDetail['homestay_id'] = $homestay_id;
@@ -48,7 +49,7 @@ class ReservationHomestayUnitDetailModel extends Model
             ->insert($reservationDetail);
         return $insert;
     }
-
+    //Mendapatkan data unit homestay yang direservasi
     public function get_reservation_by_id($reservation_id = null)
     {
         $query = $this->db->table($this->table)
@@ -67,6 +68,7 @@ class ReservationHomestayUnitDetailModel extends Model
             ->get();
         return $query;
     }
+    //Menghapus detail reservasi
     public function delete_reserv_det_by_reserv_id($reservation_id = null)
     {
         $query = $this->db->table($this->table)

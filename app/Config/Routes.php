@@ -153,6 +153,8 @@ $routes->group('dashboard', ['namespace' => 'App\Controllers\Web', 'filter' => '
     $routes->get('homestay/manage/(:segment)', 'Homestay::show/$1',  ['filter' => 'role:admin']);
     $routes->get('homestay/manage/edit/(:segment)', 'Homestay::edit/$1',  ['filter' => 'role:admin']);
     $routes->post('homestay/manage/update/(:segment)', 'Homestay::update/$1',  ['filter' => 'role:admin']);
+    $routes->post('homestay/bankAccount', 'Homestay::bankAccount',  ['filter' => 'role:owner']);
+    $routes->post('homestay/qris', 'Homestay::qris',  ['filter' => 'role:owner']);
 
     $routes->get('facilityHomestay', 'Homestay::facilityHomestay',  ['filter' => 'role:admin']);
     $routes->post('facilityHomestay', 'Homestay::addNewFacilityHomestay',  ['filter' => 'role:admin']);

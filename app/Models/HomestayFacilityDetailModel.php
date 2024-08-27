@@ -54,6 +54,7 @@ class HomestayFacilityDetailModel extends Model
         return $id;
     }
 
+    //Menambahkan data fasilitas homestay
     public function add_facility_api($id = null, $data = null)
     {
         $query = false;

@@ -87,12 +87,14 @@ class TourismPackage extends ResourcePresenter
         return view('dashboard/package_form', $data);
     }
 
+    //Fungsi menambahkan data paket wisata
     public function create()
     {
 
         $request = $this->request->getPost();
         $homestay = $this->homestayModel->list_by_owner_api(user()->id)->getRowArray();
 
+        //Mendapatkan id paket wisata baru
         $package_new_id = $this->packageModel->get_new_id_api($homestay['id']);
 
         if (isset($request['gallery'])) {
@@ -127,6 +129,7 @@ class TourismPackage extends ResourcePresenter
             }
         }
 
+        //Menambahkan data paket wisata
         $addHS = $this->packageModel->add_package_api($requestData);
 
         if ($addHS) {
@@ -149,7 +152,7 @@ class TourismPackage extends ResourcePresenter
 
         return view('dashboard/package_form', $data);
     }
-
+    //mengubah data paket wisata
     public function update($id = null)
     {
         if (url_is('*dashboard*')) {
@@ -351,6 +354,8 @@ class TourismPackage extends ResourcePresenter
 
         return view('web/homestay_package_list', $data);
     }
+
+    //Fungsi Menghapus data paket wisata
     public function delete($homestay_id = null, $package_id = null)
     {
         $delete = $this->packageModel->del_package($homestay_id, $package_id);

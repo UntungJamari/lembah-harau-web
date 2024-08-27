@@ -369,8 +369,10 @@ class Attraction extends ResourcePresenter
         return view('web/recommendation', $data);
     }
 
+    //Fungsi menampilkan map atraksi
     public function maps()
     {
+        //Mendapatkan daftar atraksi
         $contents = $this->attractionModel->get_list_at_api()->getResultArray();
         $data = [
             'title' => 'Attraction',
@@ -380,6 +382,7 @@ class Attraction extends ResourcePresenter
         return view('maps/attraction', $data);
     }
 
+    //Fungsi mendapatkan detail atraksi
     public function detail($id = null)
     {
         $attraction = $this->attractionModel->get_at_by_id_api($id)->getRowArray();

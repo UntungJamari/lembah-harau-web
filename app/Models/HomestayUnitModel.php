@@ -67,6 +67,7 @@ class HomestayUnitModel extends Model
         return $query;
     }
 
+    //Mendapatkan id unit homestay baru
     public function get_new_id_api($homestay_id = null, $unit_type = null)
     {
         $lastId = $this->db->table($this->table)
@@ -86,6 +87,7 @@ class HomestayUnitModel extends Model
         return $id;
     }
 
+    //Menambahkan data unit homestay baru
     public function add_hs_api($homestayUnit = null)
     {
         $homestayUnit['created_at'] = Time::now();
@@ -108,7 +110,7 @@ class HomestayUnitModel extends Model
             ->get();
         return $query;
     }
-
+    //mengubah data unit homestay
     public function update_hs_api($homestay_id = null, $unit_type = null, $unit_number = null, $homestayUnit = null)
     {
         $homestayUnit['updated_at'] = Time::now();
@@ -120,6 +122,7 @@ class HomestayUnitModel extends Model
         return $query;
     }
 
+    //Menghapus data unit homestay
     public function delete_hu_api($homestay_id = null, $unit_type = null, $unit_number = null)
     {
         $query = $this->db->table($this->table)

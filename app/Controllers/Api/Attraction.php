@@ -49,9 +49,11 @@ class Attraction extends ResourceController
      *
      * @return mixed
      */
+    //Fungsi mendapatkan daftar atraksi
     public function index()
     {
         $attraction = array();
+        //Mendapatkan daftar atraksi
         $contents = $this->attractionModel->get_list_at_api()->getResult();
         foreach ($contents as $content) {
             $list_gallery = $this->attractionGalleryModel->get_gallery_api($content->id)->getResultArray();

@@ -82,17 +82,19 @@ class Reservation extends ResourcePresenter
         $this->eventModel = new EventModel();
         $this->userBankAccountModel = new UserBankAccountModel();
     }
-
+    //Fungsi mendapatkan daftar reservasi
     public function listReservation()
     {
+        //Mendapatkan daftar reservasi
         $reservations = $this->reservationModel->get_list_reservation_by_cus_id(user()->id)->getResultArray();
 
         foreach ($reservations as $reservation) {
             if ($reservation['canceled_at'] == null) {
+                //Melakukan pengecekan apakah ada reservasi yang telah batal
                 $checkIsReservationCancel = $this->checkIsReservationCancel($reservation);
             }
         }
-
+        //Mendapatkan daftar reservasi
         $reservations = $this->reservationModel->get_list_reservation_by_cus_id(user()->id)->getResultArray();
 
         for ($i = 0; $i < count($reservations); $i++) {
@@ -178,10 +180,12 @@ class Reservation extends ResourcePresenter
         ];
         return $this->respond($response);
     }
+    //Fungsi menambahkan data reservasi
     public function createReservation($homestay_id = null)
     {
         $request = $this->request->getPost();
 
+        //Mendapatkan id reservasi baru
         $new_id = $this->reservationModel->get_new_id_api();
 
         $total_price = 0;
@@ -216,6 +220,7 @@ class Reservation extends ResourcePresenter
             }
         }
 
+        //Menambahkan data reservasi
         $addReservation = $this->reservationModel->add_reservation_api($requestData);
 
         $date = $request['check_in'];
@@ -224,6 +229,7 @@ class Reservation extends ResourcePresenter
             $date = date('Y-m-d', strtotime($date));
             $date_array[] = $date;
             for ($j = 0; $j < count($homestay_units); $j++) {
+                //Menambahkan data unit homestay yang direservasi
                 $addReservationDetail = $this->reservationHomestayUnitDetailModel->add_reservation_detail_api($homestay_id, $request['unit_type'], $homestay_units[$j]['unit_number'], $date, $new_id);
             }
             $date = date("Y-m-d", strtotime($date . ' + 1 days'));
@@ -235,8 +241,11 @@ class Reservation extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+
+    //Fungsi melihat detail reservasi
     public function detailReservation($id = null)
     {
+        //Mendapatkan detail reservasi
         $reservation = $this->reservationModel->get_reservation_by_id($id)->getRowArray();
 
         if (empty($reservation)) {
@@ -249,8 +258,10 @@ class Reservation extends ResourcePresenter
         $reservation = $this->reservationModel->get_reservation_by_id($id)->getRowArray();
 
         if ($reservation['canceled_at'] != null) {
+            //Mendapatkan data unit homestay
             $reservation_detail = $this->reservationHomestayUnitDetailBackUpModel->get_reservation_by_id($id)->getResultArray();
         } else {
+            //Mendapatkan data unit homestay
             $reservation_detail = $this->reservationHomestayUnitDetailModel->get_reservation_by_id($id)->getResultArray();
         }
 
@@ -301,6 +312,7 @@ class Reservation extends ResourcePresenter
 
         $reservation['day_of_stay'] = count($day_of_stay);
 
+        //Medapatakan data amenities tambahan
         $reservation_additional_amenities = $this->reservationHomestayAdditionalAmenitiesDetailModel->get_haa_by_rid_api($homestay_id[0], $reservation['id'])->getResultArray();
         for ($i = 0; $i < count($reservation_additional_amenities); $i++) {
             $amenities = $this->homestayAdditionalAmenitiesModel->get_haa_by_id_api($reservation_additional_amenities[$i]['homestay_id'], $reservation_additional_amenities[$i]['additional_amenities_id'])->getRowArray();
@@ -329,6 +341,7 @@ class Reservation extends ResourcePresenter
         ];
 
         if (!empty($reservation['package_id'])) {
+            //Mendapatkan data paket wisata
             $package = $this->packageModel->get_package_by_id_api($reservation['homestay_id'], $reservation['package_id'])->getRowArray();
             $data['package'] = $package;
             $data2 = $this->getPackageDetail($reservation['id'], $reservation['homestay_id'], $reservation['package_id']);
@@ -402,6 +415,7 @@ class Reservation extends ResourcePresenter
 
         return view('web/reservation_package', $data);
     }
+    //menambahkan paket wisata custom pada reservasi
     public function createCustomPackage($homestay_id = null, $reservation_id = null)
     {
         $reservation_detail = $this->reservationHomestayUnitDetailModel->get_reservation_by_id($reservation_id)->getResultArray();
@@ -437,6 +451,7 @@ class Reservation extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //menambahkan paket wisata extend pada reservasi
     public function createExtendPackage($homestay_id = null, $reservation_id = null, $package_id = null)
     {
         $reservation_detail = $this->reservationHomestayUnitDetailModel->get_reservation_by_id($reservation_id)->getResultArray();
@@ -596,7 +611,7 @@ class Reservation extends ResourcePresenter
 
         return $data;
     }
-
+    //Fungsi menambahkan paket wisata pada reservasi
     public function buyPackage($homestay_id = null, $reservation_id = null, $package_id = null)
     {
         $request = $this->request->getPost();
@@ -610,6 +625,7 @@ class Reservation extends ResourcePresenter
             return redirect()->to(base_url('web/reservation'));
         }
 
+        //Menambahkan paket wisata pada reservasi
         $addPackage = $this->reservationModel->add_package_api($requestData, $reservation_id, $homestay_id, $package_id);
 
         if ($addPackage) {
@@ -628,6 +644,7 @@ class Reservation extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //Fungsi finalisasi reservasi
     public function finishReservation($reservation_id = null, $deposit = null, $total_price = null)
     {
         $finishPackage = $this->reservationModel->finish_reservation($reservation_id, $deposit, $total_price);
@@ -661,10 +678,13 @@ class Reservation extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //Fungsi melakukan konfirmasi bukti pembayaran refund
     public function confirmRefund($reservation_id = null)
     {
+        //Mendapatkan data dari form
         $request = $this->request->getPost();
 
+        //Melakukan konfirmasi bukti pembayaran refund
         $confirm = $this->reservationModel->confirm_refund($request, $reservation_id);
 
         if ($confirm) {
@@ -673,6 +693,7 @@ class Reservation extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //Fungsi unggah bukti pembayaran deposit
     public function payDeposit($id = null)
     {
         $request = $this->request->getPost();
@@ -698,7 +719,7 @@ class Reservation extends ResourcePresenter
                 unset($requestData[$key]);
             }
         }
-
+        //Menambahkan bukti pembayarab deposit
         $payDeposit = $this->reservationModel->pay_deposit($requestData, $id);
 
         if ($payDeposit) {
@@ -707,8 +728,10 @@ class Reservation extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //Fungsi unggah bukti pembayaran penuh
     public function payFull($id = null)
     {
+        //mendapatkan data dari form
         $request = $this->request->getPost();
 
         $folders = $request['gallery'];
@@ -733,6 +756,7 @@ class Reservation extends ResourcePresenter
             }
         }
 
+        //Unggah bukti pembayaran penuh
         $payFull = $this->reservationModel->pay_full($requestData, $id);
 
         if ($payFull) {
@@ -741,15 +765,17 @@ class Reservation extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
-
+    //Fungsi Membatalkan reservasi
     public function cancelReservation($reservation_id = null)
     {
         date_default_timezone_set("Asia/Jakarta");
         $reservation['canceled_at'] = date("Y-m-d H:i");
 
+        //Mendapatkan detail reservasi
         $reservation_data = $this->reservationModel->get_reservation_by_id($reservation_id)->getRowArray();
         $date_refund = date("Y-m-d H:i", strtotime($reservation_data['check_in'] . ' - 1 days'));
 
+        //Menentukan apakah mendapatkan refund
         if (strtotime($reservation['canceled_at']) < strtotime($date_refund)) {
             $reservation['is_refund'] = '1';
         } else {
@@ -757,14 +783,17 @@ class Reservation extends ResourcePresenter
         }
         $reservation['cancelation_reason'] = '1';
 
+        //Membatalkan reservasi
         $cancel_reservation = $this->reservationModel->cancel_reservation($reservation, $reservation_id);
 
         $reservation_detail = $this->reservationHomestayUnitDetailModel->get_reservation_by_id($reservation_id)->getResultArray();
 
         foreach ($reservation_detail as $reservationDetail) {
+            //Memindahkan detail reservasi ke backup
             $reservation_detail_backup = $this->reservationHomestayUnitDetailBackUpModel->add_reservation_detail_api($reservationDetail);
         }
 
+        //Menghapus detail reservasi
         $delete_reservation_detail = $this->reservationHomestayUnitDetailModel->delete_reserv_det_by_reserv_id($reservation_id);
 
         if ($cancel_reservation) {
@@ -773,7 +802,7 @@ class Reservation extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
-
+    //menambahkan data rekening bank customer
     public function createBankAccount()
     {
         $request = $this->request->getPost();
@@ -805,7 +834,7 @@ class Reservation extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
-
+    //Menambahkan amenities tambahan pada reservasi
     public function addAmenities()
     {
         $request = $this->request->getPost();
@@ -831,10 +860,11 @@ class Reservation extends ResourcePresenter
 
         return redirect()->to(base_url('web/reservation/detail/' . $request['reservation_id']));
     }
+    //Fungsi menambahkan rating dan review
     public function addReview($reservation_id = null)
     {
         $request = $this->request->getPost();
-
+        //Menambahkan rating dan review
         $addRating = $this->reservationModel->add_rating($request, $reservation_id);
 
         if ($addRating) {
@@ -1000,16 +1030,19 @@ class Reservation extends ResourcePresenter
         return view('dashboard/reservation_detail', $data);
     }
 
+    //Fungsi melakukan konfirmasi reservasi
     public function confirmReservation($reservation_id = null)
     {
         $request = $this->request->getPost();
 
+        //Mendapatkan detail reservasi
         $reservation = $this->reservationModel->get_reservation_by_id($reservation_id)->getRowArray();
 
         if (empty($reservation)) {
             return redirect()->to(base_url('dashboard/reservation'));
         }
 
+        //Konfrimasi reservasi
         $confirm = $this->reservationModel->confirm_reservation($request, $reservation_id);
 
         if ($confirm) {
@@ -1018,16 +1051,20 @@ class Reservation extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //Fungsi melakukan konfirmasi bukti pembayaran deposit
     public function confirmDepositReservation($id = null)
     {
+        //Mendapatkan data dari form
         $request = $this->request->getPost();
 
+        //Mendapatkan detail reservasi
         $reservation = $this->reservationModel->get_reservation_by_id($id)->getRowArray();
 
         if (empty($reservation)) {
             return redirect()->to(base_url('dashboard/reservation'));
         }
 
+        //Melakukan konfirmasi bukti pembayaran deposit
         $confirm = $this->reservationModel->confirm_deposit_reservation($request, $id);
 
         if ($confirm) {
@@ -1036,16 +1073,20 @@ class Reservation extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //Fungsi melakukan konfirmasi bukti pembayaran penuh
     public function confirmFullPayReservation($id = null)
     {
+        //mendapatkan data dari form
         $request = $this->request->getPost();
 
+        //Mendapatkan detail reservais
         $reservation = $this->reservationModel->get_reservation_by_id($id)->getRowArray();
 
         if (empty($reservation)) {
             return redirect()->to(base_url('dashboard/reservation'));
         }
 
+        //Melakukan konfirmasi bukti pembayaran penuh
         $confirm = $this->reservationModel->confirm_full_pay_reservation($request, $id);
 
         if ($confirm) {
@@ -1054,6 +1095,7 @@ class Reservation extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //Fungsi unggah bukti pembayaran refund
     public function refundReservation($reservation_id = null)
     {
         $request = $this->request->getPost();
@@ -1079,7 +1121,7 @@ class Reservation extends ResourcePresenter
                 unset($requestData[$key]);
             }
         }
-
+        //Menambahkan bukti pembayaran refund
         $payDeposit = $this->reservationModel->refund_reservation($requestData, $reservation_id);
 
         if ($payDeposit) {
@@ -1165,6 +1207,7 @@ class Reservation extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //menghapus reservasi
     public function delete($id = null)
     {
         $deleteS = $this->reservationModel->delete(['id' => $id]);
@@ -1201,6 +1244,7 @@ class Reservation extends ResourcePresenter
 
         return view('web/homestay_activity_list', $data);
     }
+    // Melakukan pengecekan apakah reservasi telah batal
     public function checkIsReservationCancel($reservation = null)
     {
         date_default_timezone_set("Asia/Jakarta");

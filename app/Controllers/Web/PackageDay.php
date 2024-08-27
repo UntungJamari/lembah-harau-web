@@ -39,6 +39,7 @@ class PackageDay extends ResourcePresenter
         $this->eventModel = new EventModel();
     }
 
+    //Fungsi menambahkan hari paket wisata
     public function create()
     {
         $request = $this->request->getPost();
@@ -54,7 +55,7 @@ class PackageDay extends ResourcePresenter
                 unset($requestData[$key]);
             }
         }
-
+        //Menambahkan hari paket wisata
         $add = $this->packageDayModel->add_pd_api($requestData);
 
         if ($add) {

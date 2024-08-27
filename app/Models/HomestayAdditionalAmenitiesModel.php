@@ -76,7 +76,7 @@ class HomestayAdditionalAmenitiesModel extends Model
         $id = sprintf('%02d', $count + 1);
         return $id;
     }
-
+    //Menambahkan amenities tambahan
     public function add_haa_api($additionalAmenities = null)
     {
         $new_id = $this->get_new_id_api($additionalAmenities['homestay_id']);
@@ -98,7 +98,7 @@ class HomestayAdditionalAmenitiesModel extends Model
             ->get();
         return $query;
     }
-
+    // mengubah data amenities tambahan
     public function update_haa_api($additionalAmenities = null, $homestay_id = null, $activity_id = null)
     {
         $additionalAmenities['updated_at'] = Time::now();
@@ -119,6 +119,7 @@ class HomestayAdditionalAmenitiesModel extends Model
             ->get();
         return $query;
     }
+    //Menghapus data amenities tambahan
     public function del_activity($homestay_id = null, $activity_id = null)
     {
         $query = $this->db->table($this->table)

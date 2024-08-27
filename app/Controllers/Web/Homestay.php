@@ -24,6 +24,8 @@ use App\Models\HomestayAdditionalAmenitiesModel;
 
 use App\Models\ReservationModel;
 use App\Models\ReservationHomestayUnitDetailModel;
+use App\Models\UserBankAccountModel;
+
 
 class Homestay extends ResourcePresenter
 {
@@ -48,6 +50,7 @@ class Homestay extends ResourcePresenter
 
     protected $reservationModel;
     protected $reservationHomestayUnitDetailModel;
+    protected $userBankAccountModel;
 
     protected $helpers = ['auth', 'url', 'filesystem'];
 
@@ -72,6 +75,7 @@ class Homestay extends ResourcePresenter
 
         $this->reservationModel = new ReservationModel();
         $this->reservationHomestayUnitDetailModel = new ReservationHomestayUnitDetailModel();
+        $this->userBankAccountModel = new UserBankAccountModel();
     }
 
     /**
@@ -164,6 +168,10 @@ class Homestay extends ResourcePresenter
         ];
 
         if (url_is('*dashboard*')) {
+            $homestay_owner_bank_account = $this->userBankAccountModel->get_user_bank_account($homestay['owner'])->getRowArray();
+
+            $data['homestay_owner_bank_account'] = $homestay_owner_bank_account;
+
             return view('dashboard/homestay_detail', $data);
         }
 
@@ -193,9 +201,12 @@ class Homestay extends ResourcePresenter
      *
      * @return mixed
      */
+    //Fungsi menabahkan data homestay
     public function create()
     {
+        //Mendapatkan data yang dikirim oleh form
         $request = $this->request->getPost();
+        //Mendapatkan id homestay baru
         $id = $this->homestayModel->get_new_id_api();
         $requestData = [
             'id' => $id,
@@ -224,8 +235,10 @@ class Homestay extends ResourcePresenter
             rmdir($filepath);
             $requestData['video_url'] = $vidFile->getFilename();
         }
+        //Menambahkan data homestay baru
         $addHS = $this->homestayModel->add_hs_api($requestData, $geojson);
 
+        //Menambahkan data fasilitas homestay
         $addFacilities = true;
         if (isset($request['facilities'])) {
             $facilities = $request['facilities'];
@@ -244,6 +257,7 @@ class Homestay extends ResourcePresenter
                 rmdir($filepath);
                 $gallery[] = $fileImg->getFilename();
             }
+            //Menambahkan data galeri homestay
             $this->homestayGalleryModel->add_gallery_api($id, $gallery);
         }
 
@@ -309,6 +323,7 @@ class Homestay extends ResourcePresenter
      *
      * @return mixed
      */
+    //mengubah data homestay
     public function update($id = null)
     {
         $request = $this->request->getPost();
@@ -419,8 +434,10 @@ class Homestay extends ResourcePresenter
         return view('web/recommendation', $data);
     }
 
+    //Fungsi menampilkan map homestay
     public function maps()
     {
+        //Mendapatkan daftar homestay
         $contents = $this->homestayModel->get_list_hs_api()->getResultArray();
 
         $data = [
@@ -430,7 +447,7 @@ class Homestay extends ResourcePresenter
 
         return view('maps/homestay', $data);
     }
-
+    //Fungsi mendapatkan detail homestay
     public function detail($id = null)
     {
         $homestay = $this->homestayModel->get_hs_by_id_api($id)->getRowArray();
@@ -503,7 +520,7 @@ class Homestay extends ResourcePresenter
         $data['homestay_id'] = $homestay['id'];
         return view('maps/homestay_detail', $data);
     }
-
+    //melihat daftar fasilitas homestay
     public function facilityHomestay()
     {
         $contents = $this->homestayFacilityModel->get_list_fc_api()->getResultArray();
@@ -514,6 +531,7 @@ class Homestay extends ResourcePresenter
         ];
         return view('dashboard/manage', $data);
     }
+    //menambahkan data fasilitas homestay
     public function addNewFacilityHomestay()
     {
         $request = $this->request->getPost();
@@ -535,6 +553,7 @@ class Homestay extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //mengubah data fasilitas homestay
     public function editFacilityHomestay($id = null)
     {
         $request = $this->request->getPost();
@@ -557,6 +576,7 @@ class Homestay extends ResourcePresenter
             return redirect()->back()->withInput();
         }
     }
+    //menghapus data fasilitas homestay
     public function deleteFacilityHomestay($id = null)
     {
         $deleteS = $this->homestayFacilityModel->delete(['id' => $id]);
@@ -650,6 +670,65 @@ class Homestay extends ResourcePresenter
                 ]
             ];
             return $this->failNotFound($response);
+        }
+    }
+    public function bankAccount()
+    {
+        $request = $this->request->getPost();
+        $homestay_owner_bank_account = $this->userBankAccountModel->get_user_bank_account(user()->id)->getRowArray();
+        $homestay = $this->homestayModel->check_owner_has_homestay(user()->id)->getRowArray();
+        if ($homestay_owner_bank_account) {
+            $add_update = $this->userBankAccountModel->update_user_bank_account($request, $homestay_owner_bank_account['id']);
+        } else {
+            $request['user_id'] = user()->id;
+            $add_update = $this->userBankAccountModel->add_user_bank_account($request);
+        }
+
+        if ($add_update) {
+            return redirect()->to('/dashboard/homestay/' . $homestay['id']);
+        } else {
+            return redirect()->back()->withInput();
+        }
+    }
+    public function qris()
+    {
+        $request = $this->request->getPost();
+
+        $folders = $request['gallery'];
+        $gallery = array();
+        foreach ($folders as $folder) {
+            $filepath = WRITEPATH . 'uploads/' . $folder;
+            $filenames = get_filenames($filepath);
+            $fileImg = new File($filepath . '/' . $filenames[0]);
+            $fileImg->move(FCPATH . 'media/photos');
+            delete_files($filepath);
+            rmdir($filepath);
+            $gallery[] = $fileImg->getFilename();
+        }
+
+        $requestData = [
+            'qris' => $gallery[0],
+        ];
+
+        foreach ($requestData as $key => $value) {
+            if (empty($value)) {
+                unset($requestData[$key]);
+            }
+        }
+
+        $homestay_owner_bank_account = $this->userBankAccountModel->get_user_bank_account(user()->id)->getRowArray();
+        $homestay = $this->homestayModel->check_owner_has_homestay(user()->id)->getRowArray();
+        if ($homestay_owner_bank_account) {
+            $add_update = $this->userBankAccountModel->update_user_bank_account($requestData, $homestay_owner_bank_account['id']);
+        } else {
+            $requestData['user_id'] = user()->id;
+            $add_update = $this->userBankAccountModel->add_user_bank_account($requestData);
+        }
+
+        if ($add_update) {
+            return redirect()->to('/dashboard/homestay/' . $homestay['id']);
+        } else {
+            return redirect()->back()->withInput();
         }
     }
 }

@@ -49,9 +49,11 @@ class Homestay extends ResourceController
      *
      * @return mixed
      */
+    //Fungsi mendapatkan daftar homestay
     public function index()
     {
         $homestay = array();
+        //Mendapatkan daftar homestay
         $contents = $this->homestayModel->get_list_hs_api()->getResult();
         foreach ($contents as $content) {
             $list_gallery = $this->homestayGalleryModel->get_gallery_api($content->id)->getResultArray();
@@ -245,6 +247,7 @@ class Homestay extends ResourceController
      *
      * @return mixed
      */
+    //menghapus data homestay
     public function delete($id = null)
     {
         $deleteHS = $this->homestayModel->delete(['id' => $id]);

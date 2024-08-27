@@ -162,7 +162,7 @@
                                                         <p class="ms-4">
                                                             <?= esc("Rp " . number_format($activity['price'], 0, ',', '.')); ?><?= ($activity['is_order_count_per_day'] == '1') ? '/day' : '' ?><?= ($activity['is_order_count_per_person'] == '1') ? '/person' : '' ?><?= ($activity['is_order_count_per_room'] == '1') ? '/room' : '' ?>
                                                             <br>
-                                                            <?= ($activity['day_order'] != '0') ? 'Day Order : ' . $activity['day_order'] . ', ' : '' ?><?= ($activity['person_order'] != '0') ? 'Person Order : ' . $activity['person_order'] . ', ' : '' ?><?= ($activity['room_order'] != '0') ? 'Room Order : ' . $activity['room_order'] . ', ' : '' ?><?= (($activity['day_order'] == '0') && ($activity['person_order'] == '0') && ($activity['room_order'] == '0')) ? 'Total Order : ' . $activity['total_order']  : '' ?>
+                                                            <?= ($activity['day_order'] != '0') ? 'Day Order : ' . $activity['day_order'] . ', ' : '' ?><?= ($activity['person_order'] != '0') ? 'Person Order : ' . $activity['person_order'] . ', ' : '' ?><?= ($activity['room_order'] != '0') ? 'Order : ' . $activity['room_order'] . ', ' : '' ?><?= (($activity['day_order'] == '0') && ($activity['person_order'] == '0') && ($activity['room_order'] == '0')) ? 'Total Order : ' . $activity['total_order']  : '' ?>
                                                             <br>
                                                             <?= esc("Price : Rp " . number_format($activity['total_price'], 0, ',', '.')); ?>
                                                         </p>
@@ -602,40 +602,62 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <div class="col-md-4">
-                                                <div class="card border" style="display: flex;">
-                                                    <div class="card-body">
-                                                        <span class="fw-bold">
-                                                            <?= esc($homestay_owner_bank_account['bank_name']) ?>
-                                                        </span>
-                                                        <br>
-                                                        Account Number : <?= esc($homestay_owner_bank_account['account_number']) ?>
-                                                        <br>
-                                                        Account Name : <?= esc($homestay_owner_bank_account['account_name']) ?>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 mt-5">
-                                                <form class="form form-vertical" action="/web/reservation/payDeposit/<?= esc($reservation['id']); ?>" method="post" enctype="multipart/form-data">
-                                                    <div class="form-body">
-                                                        <div class="form-group mb-4">
-                                                            <label for="gallery" class="form-label">
-                                                                <?php if ($reservation['deposit_proof'] == null) : ?>
-                                                                    Deposit Payment Proof
-                                                                <?php else : ?>
-                                                                    Change Deposit Payment Proof
-                                                                    <?php if ($reservation['is_deposit_proof_correct'] == '0') : ?>
-                                                                        <br>
-                                                                        <span class="text-danger"><i>*deposit proof that you uploaded previously is incorrect</i></span>
-                                                                    <?php endif; ?>
-                                                                <?php endif; ?>
-                                                            </label>
-                                                            <input class="form-control" accept="image/*" type="file" name="gallery[]" id="gallery" required>
+                                            <?php if ($homestay_owner_bank_account == null) : ?>
+                                                <span><i>Homestay owner has not entered his bank account data</i></span>
+                                            <?php else : ?>
+                                                <?php if ($homestay_owner_bank_account['account_number'] != null) : ?>
+                                                    <div class="col-md-4">
+                                                        <div class="card border" style="display: flex;">
+                                                            <div class="card-body">
+                                                                <span class="fw-bold">
+                                                                    <?= esc($homestay_owner_bank_account['bank_name']) ?>
+                                                                </span>
+                                                                <br>
+                                                                Account Number : <?= esc($homestay_owner_bank_account['account_number']) ?>
+                                                                <br>
+                                                                Account Name : <?= esc($homestay_owner_bank_account['account_name']) ?>
+                                                            </div>
                                                         </div>
-                                                        <button type="submit" class="btn btn-primary">Save</button>
                                                     </div>
-                                                </form>
-                                            </div>
+                                                <?php endif; ?>
+                                                <?php if (($homestay_owner_bank_account['account_number'] != null) && ($homestay_owner_bank_account['qris'] != null)) : ?>
+                                                    <div class="col-md-4 mb-4">
+                                                        <center>
+                                                            <b>
+                                                                ---OR---
+                                                            </b>
+                                                        </center>
+                                                    </div>
+                                                <?php endif; ?>
+                                                <?php if ($homestay_owner_bank_account['qris'] != null) : ?>
+                                                    <div class="col-md-4">
+                                                        <div class="card border" style="display: flex;">
+                                                            <img src="<?= base_url('media/photos/' . $homestay_owner_bank_account['qris']); ?>" class="img-fluid" alt="Responsive image">
+                                                        </div>
+                                                    </div>
+                                                <?php endif; ?>
+                                                <div class="col-md-4 mt-5">
+                                                    <form class="form form-vertical" action="/web/reservation/payDeposit/<?= esc($reservation['id']); ?>" method="post" enctype="multipart/form-data">
+                                                        <div class="form-body">
+                                                            <div class="form-group mb-4">
+                                                                <label for="gallery" class="form-label">
+                                                                    <?php if ($reservation['deposit_proof'] == null) : ?>
+                                                                        Deposit Payment Proof
+                                                                    <?php else : ?>
+                                                                        Change Deposit Payment Proof
+                                                                        <?php if ($reservation['is_deposit_proof_correct'] == '0') : ?>
+                                                                            <br>
+                                                                            <span class="text-danger"><i>*deposit proof that you uploaded previously is incorrect</i></span>
+                                                                        <?php endif; ?>
+                                                                    <?php endif; ?>
+                                                                </label>
+                                                                <input class="form-control" accept="image/*" type="file" name="gallery[]" id="gallery" required>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-primary">Save</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php elseif (($reservation['canceled_at'] != null) && ($reservation['is_refund'] == '1') && ($reservation['refund_proof'] == null)) : ?>
@@ -706,40 +728,62 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <div class="col-md-4">
-                                                <div class="card border" style="display: flex;">
-                                                    <div class="card-body">
-                                                        <span class="fw-bold">
-                                                            <?= esc($homestay_owner_bank_account['bank_name']) ?>
-                                                        </span>
-                                                        <br>
-                                                        Account Number : <?= esc($homestay_owner_bank_account['account_number']) ?>
-                                                        <br>
-                                                        Account Name : <?= esc($homestay_owner_bank_account['account_name']) ?>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 mt-5">
-                                                <form class="form form-vertical" action="/web/reservation/payFull/<?= esc($reservation['id']); ?>" method="post" enctype="multipart/form-data">
-                                                    <div class="form-body">
-                                                        <div class="form-group mb-4">
-                                                            <label for="gallery" class="form-label">
-                                                                <?php if ($reservation['full_paid_proof'] == null) : ?>
-                                                                    Full Payment Proof
-                                                                <?php else : ?>
-                                                                    Change Full Payment Proof
-                                                                    <?php if ($reservation['is_full_paid_proof_correct'] == '0') : ?>
-                                                                        <br>
-                                                                        <span class="text-danger"><i>*full paid proof that you uploaded previously is incorrect</i></span>
-                                                                    <?php endif; ?>
-                                                                <?php endif; ?>
-                                                            </label>
-                                                            <input class="form-control" accept="image/*" type="file" name="gallery[]" id="gallery" required>
+                                            <?php if ($homestay_owner_bank_account == null) : ?>
+                                                <span><i>Homestay owner has not entered his bank account data</i></span>
+                                            <?php else : ?>
+                                                <?php if ($homestay_owner_bank_account['account_number'] != null) : ?>
+                                                    <div class="col-md-4">
+                                                        <div class="card border" style="display: flex;">
+                                                            <div class="card-body">
+                                                                <span class="fw-bold">
+                                                                    <?= esc($homestay_owner_bank_account['bank_name']) ?>
+                                                                </span>
+                                                                <br>
+                                                                Account Number : <?= esc($homestay_owner_bank_account['account_number']) ?>
+                                                                <br>
+                                                                Account Name : <?= esc($homestay_owner_bank_account['account_name']) ?>
+                                                            </div>
                                                         </div>
-                                                        <button type="submit" class="btn btn-primary">Save</button>
                                                     </div>
-                                                </form>
-                                            </div>
+                                                <?php endif; ?>
+                                                <?php if (($homestay_owner_bank_account['account_number'] != null) && ($homestay_owner_bank_account['qris'] != null)) : ?>
+                                                    <div class="col-md-4 mb-4">
+                                                        <center>
+                                                            <b>
+                                                                ---OR---
+                                                            </b>
+                                                        </center>
+                                                    </div>
+                                                <?php endif; ?>
+                                                <?php if ($homestay_owner_bank_account['qris'] != null) : ?>
+                                                    <div class="col-md-4">
+                                                        <div class="card border" style="display: flex;">
+                                                            <img src="<?= base_url('media/photos/' . $homestay_owner_bank_account['qris']); ?>" class="img-fluid" alt="Responsive image">
+                                                        </div>
+                                                    </div>
+                                                <?php endif; ?>
+                                                <div class="col-md-4 mt-5">
+                                                    <form class="form form-vertical" action="/web/reservation/payFull/<?= esc($reservation['id']); ?>" method="post" enctype="multipart/form-data">
+                                                        <div class="form-body">
+                                                            <div class="form-group mb-4">
+                                                                <label for="gallery" class="form-label">
+                                                                    <?php if ($reservation['full_paid_proof'] == null) : ?>
+                                                                        Full Payment Proof
+                                                                    <?php else : ?>
+                                                                        Change Full Payment Proof
+                                                                        <?php if ($reservation['is_full_paid_proof_correct'] == '0') : ?>
+                                                                            <br>
+                                                                            <span class="text-danger"><i>*full paid proof that you uploaded previously is incorrect</i></span>
+                                                                        <?php endif; ?>
+                                                                    <?php endif; ?>
+                                                                </label>
+                                                                <input class="form-control" accept="image/*" type="file" name="gallery[]" id="gallery" required>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-primary">Save</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php elseif (($reservation['full_paid_confirmed_at'] != null) && ($reservation['rating'] == null)) : ?>

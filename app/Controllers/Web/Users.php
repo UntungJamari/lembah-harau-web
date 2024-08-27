@@ -54,6 +54,7 @@ class Users extends ResourcePresenter
      *
      * @return mixed
      */
+    //melihat detail user
     public function show($id = null)
     {
         $contents = $this->accountModel->get_account_by_id_api($id)->getRowArray();
@@ -111,6 +112,7 @@ class Users extends ResourcePresenter
      *
      * @return mixed
      */
+    //mengubah data user
     public function update($id = null)
     {
         $data = [

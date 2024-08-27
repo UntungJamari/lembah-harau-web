@@ -174,7 +174,7 @@ class Dashboard extends BaseController
         ];
         return view('dashboard/manage', $data);
     }
-
+    //daftar user
     public function users()
     {
         $contents = $this->accountModel->get_list_user_api()->getResultArray();

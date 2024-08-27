@@ -542,7 +542,7 @@
                                     <tr>
                                         <td colspan="2">
                                             <?php if ($customer_bank_account == null) : ?>
-                                                <span><i>Customer has not entered his account data</i></span>
+                                                <span><i>Customer has not entered his bank account data</i></span>
                                             <?php else : ?>
                                                 <div class="col-md-4">
                                                     <div class="card border" style="display: flex;">

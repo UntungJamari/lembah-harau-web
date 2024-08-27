@@ -103,6 +103,7 @@ class PdfController extends ResourcePresenter
         $this->userBankAccountModel = new UserBankAccountModel();
     }
 
+    //Fungsi untuk membuat file pdf
     public function generatePDF($id = null)
     {
         // create new PDF document
@@ -242,10 +243,6 @@ class PdfController extends ResourcePresenter
 
             $data = array_merge($data, $data2);
         }
-
-        // dd($data);
-
-        // return view('web/invoice', $data);
 
         //view mengarah ke invoice.php
         $html = view('web/invoice', $data);

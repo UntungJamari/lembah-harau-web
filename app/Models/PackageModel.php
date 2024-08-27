@@ -61,6 +61,7 @@ class PackageModel extends Model
         return $query;
     }
 
+    //Mendapatkan id paket wisata baru
     public function get_new_id_api($homestay_id = null)
     {
         $lastId = $this->db->table($this->table)->select('package_id')->where('homestay_id', $homestay_id)->orderBy('homestay_id', 'ASC')->get()->getLastRow('array');
@@ -73,6 +74,7 @@ class PackageModel extends Model
         return $id;
     }
 
+    //Menambahkan data paket wisata baru
     public function add_package_api($package = null)
     {
         $package['created_at'] = Time::now();
@@ -102,7 +104,7 @@ class PackageModel extends Model
             ->update($activity);
         return $query;
     }
-
+    //mengubah data paket wisata
     public function update_package_api($package = null, $homestay_id = null, $package_id = null)
     {
         $query = $this->db->table($this->table)
@@ -130,6 +132,7 @@ class PackageModel extends Model
             ->update($package);
         return $query;
     }
+    //Menghapus data paket wisata
     public function del_package($homestay_id = null, $package_id = null)
     {
         $query = $this->db->table($this->table)

@@ -51,6 +51,7 @@ class HomestayUnitGalleryModel extends Model
         return $query;
     }
 
+    //Menambahkan data galeri unit homestay
     public function add_gallery_api($homestay_id = null, $unit_type = null, $unit_number = null, $data = null)
     {
         $query = false;

@@ -47,7 +47,7 @@ class UserBankAccountModel extends Model
         $id = sprintf('%03d', $count + 1);
         return $id;
     }
-
+    //menambahkan data rekening
     public function add_user_bank_account($user_bank_account = null)
     {
         $new_id = $this->get_new_id_api();

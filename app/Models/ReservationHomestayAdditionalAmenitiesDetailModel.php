@@ -25,6 +25,7 @@ class ReservationHomestayAdditionalAmenitiesDetailModel extends Model
     protected $cleanValidationRules = true;
 
     // API
+    //Mendapatkan amenities tambahan pada reservasi
     public function get_haa_by_rid_api($homestay_id = null, $reservation_id = null)
     {
         $query = $this->db->table($this->table)
@@ -42,7 +43,7 @@ class ReservationHomestayAdditionalAmenitiesDetailModel extends Model
             ->delete();
         return $query;
     }
-
+    //menghapus amenities tambahan dari reservasi
     public function del_haa_by_id_api($homestay_id = null, $additional_amenities_id = null, $reservation_id = null)
     {
         $query = $this->db->table($this->table)
@@ -52,7 +53,7 @@ class ReservationHomestayAdditionalAmenitiesDetailModel extends Model
             ->delete();
         return $query;
     }
-
+    //menambahkan amenities tambahan pada reservasi
     public function add_detail_haa($amenities)
     {
         $query = $this->db->table($this->table)

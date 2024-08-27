@@ -42,6 +42,7 @@ class PackageDayModel extends Model
         $day = sprintf($count + 1);
         return $day;
     }
+    //Menambahkan hari paket wisata
     public function add_pd_api($package_day = null)
     {
         $day = $this->get_new_day($package_day['homestay_id'], $package_day['package_id']);

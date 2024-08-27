@@ -26,6 +26,7 @@ class ReservationHomestayUnitDetailBackUpModel extends Model
     protected $cleanValidationRules = true;
 
     // API
+    //Menambahkan detail reservasi pada backup
     public function add_reservation_detail_api($reservationDetail = null)
     {
         $insert = $this->db->table($this->table)
